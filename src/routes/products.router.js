@@ -10,7 +10,6 @@ router.get('/', findProducts);
 
 router.get('/:pid', findProductById);
 
-
 router.post('/new', authValidation, roleValidation, newProduct);
 
 router.delete('/delete/:pid', deleteProduct);

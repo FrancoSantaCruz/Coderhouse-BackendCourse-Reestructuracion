@@ -34,9 +34,12 @@ export const newCart = async (req, res) => {
 
 export const addProdToCart = async (req, res) => {
     const { cid, pid } = req.params;
+    console.log(cid)
+    console.log(pid)
     let user = req.user
     try {
         const cart = await findByIdCart(cid)
+        console.log('cart', cart);
         if (!cart) {
             return res.status(400).json({ message: 'Cart not found' });
         }
@@ -44,6 +47,7 @@ export const addProdToCart = async (req, res) => {
         if (!product) {
             return res.status(400).json({ message: 'Product not found' });
         }
+        console.log('prod', product);
         const prod_idx = cart.products.findIndex((prod) => prod.product._id.equals(pid));
         // Como prod.product son tipo de datos ObjectId de mongoose
         // necesitamos usar .equals() para comparar con otro tipo de dato
@@ -56,6 +60,7 @@ export const addProdToCart = async (req, res) => {
         await updateOneCart(cid, cart)
 
         res.status(200).redirect('back')
+        // res.status(200).json({message: 'Product added.', cart})
     } catch (error) {
         res.status(500).json({ error })
     }

@@ -1,28 +1,20 @@
 import { Router } from "express";
-import { usersManager } from '../dao/managers/users.manager.js'
-import { cartsManager } from "../dao/managers/carts.manager.js";
+import { findUsers, findUserById, findUserByEmail, deleteUser } from "../controllers/users.controller.js";
 
 const router = Router();
 
-router.get('/', async (req, res) => {
-    try {
-        const allUsers = await usersManager.findAll();
-        res.status(200).json({ message: ' All users ', allUsers })
-    } catch (error) {
-        res.status(500).json({ error })
-    }
-})
+router.get('/', findUsers);
 
-// router.get('/:uid', async (req, res) => {
-//     const { uid } = req.params;
-//     try {
-//         const user = usersManager.findById(uid);
-//         res.status(200).json({ message: ' User found ', user })
-//     } catch (error) {
-//         res.status(500).json({ error })
-//     }
-// })
+// router.get('/:uid', findUserById);
 
+router.get('/:email', findUserByEmail);
+
+router.delete('/delete/:uid', deleteUser);
+
+export default router;
+
+
+/*
 router.post('/', async (req, res) => {
     const { first_name, last_name, email, password } = req.body;
     
@@ -38,30 +30,4 @@ router.post('/', async (req, res) => {
         res.status(500).json({ error })
     }
 })
-
-
-router.get('/:email', async (req, res) => {
-    const { email } = req.params;
-    try {
-        const user = await usersManager.findByEmail(email);
-        res.status(200).json({ message: ' User found ', user })
-    } catch (error) {
-        res.status(500).json({ error })
-    }
-})
-
-// router.get('/', async (req, res) => {
-//     try {
-
-
-
-//         res.status(200).json({ message })      
-//     } catch (error) {
-//         res.status(500).json({ error })
-//     }
-// })
-
-
-
-
-export default router;
+*/
